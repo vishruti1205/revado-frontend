@@ -1,0 +1,46 @@
+<!-- Subtask management template for listing, creating, and updating subtasks. -->
+<h1>ToDo Task Management Application</h1>
+<h2>Subtask Page</h2>
+
+<div style="margin-bottom: 15px;">
+  <input
+    type="text"
+    [(ngModel)]="newSubtask.title"
+    placeholder="Enter subtask..."
+  />
+  <button type="button" (click)="addSubtask()">Add Subtask</button>
+  <button type="button" (click)="goBackToTodos()" style="margin-left: 8px;">Back to Todos</button>
+</div>
+
+<hr>
+
+<table border="1" cellpadding="8" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Title</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let subtask of subtasks">
+      <td>
+        <input
+          type="checkbox"
+          [checked]="subtask.completed"
+          (change)="toggleComplete(subtask)"
+        />
+      </td>
+      <td [style.textDecoration]="subtask.completed ? 'line-through' : 'none'">
+        {{ subtask.title }}
+      </td>
+      <td>
+        <button type="button" (click)="deleteSubtask(subtask)">Delete</button>
+      </td>
+    </tr>
+
+    <tr *ngIf="subtasks.length === 0">
+      <td colspan="3" style="text-align: center;">No subtasks found.</td>
+    </tr>
+  </tbody>
+</table>

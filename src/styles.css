@@ -1,1 +1,94 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global theme used across login/register/todo/subtask pages. */
+:root {
+  --bg-top: #f5f7ff;
+  --bg-bottom: #eef6ff;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #dbe4f0;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 28px;
+  color: var(--text);
+  font-family: Cambria, Georgia, serif;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(29, 78, 216, 0.12), transparent 32%),
+    radial-gradient(circle at 85% 0%, rgba(14, 116, 144, 0.12), transparent 36%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+}
+
+app-root {
+  display: block;
+  max-width: 1080px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.08);
+  padding: 22px;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+p {
+  color: var(--muted);
+}
+
+input[type="text"],
+input[type="password"] {
+  min-height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  outline: none;
+  background: #fff;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
+button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+table {
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+th,
+td {
+  border-color: var(--border);
+}

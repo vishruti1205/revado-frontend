@@ -1,0 +1,95 @@
+<!-- Todo template for creating and managing todo tasks. -->
+<!-- 
+  Displays all todos for logged-in user
+  Allows adding new todo
+  Allows deleting todo
+  Allows toggling completed status
+-->
+
+<h1>ToDo Task Management Application</h1>
+<h2>Todo Page</h2>
+
+<!-- ADD NEW TODO SECTION-->
+<div style="margin-bottom: 15px;">
+  <!-- Two-way binding with newTodo.title -->
+  <input
+    type="text"
+    [(ngModel)]="newTodo.title"
+    placeholder="Enter todo..."
+  />
+
+  <!--  type="button" prevents form auto-submit -->
+  <button
+    type="button"
+    (click)="addTodo()"
+  >
+    Add
+  </button>
+</div>
+
+<hr>
+
+<p *ngIf="todoStatusNote" style="color: red; margin-top: 8px;">
+  {{ todoStatusNote }}
+</p>
+
+<!-- TODO LIST TABLE-->
+<table border="1" cellpadding="8" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Title</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <!-- Loop through todos -->
+    <tr *ngFor="let todo of todos">
+
+      <!-- COMPLETED CHECKBOX -->
+      <td>
+        <input
+          type="checkbox"
+          [checked]="todo.completed"
+          (change)="toggleComplete(todo)"
+        />
+      </td>
+
+      <!-- TODO TITLE -->
+      <td
+        [style.textDecoration]="todo.completed ? 'line-through' : 'none'"
+      >
+        {{ todo.title }}
+      </td>
+
+      <!-- DELETE BUTTON -->
+      <td>
+        <button
+          type="button"
+          (click)="openSubtasks(todo)"
+          style="margin-right: 8px;"
+        >
+          Subtasks
+        </button>
+
+        <button
+          type="button"
+          (click)="deleteTodo(todo)"
+        >
+          Delete
+        </button>
+      </td>
+
+    </tr>
+
+    <!-- If no todos -->
+    <tr *ngIf="todos.length === 0">
+      <td colspan="3" style="text-align: center;">
+        No todos found.
+      </td>
+    </tr>
+
+  </tbody>
+</table>

@@ -1,0 +1,17 @@
+<!-- Registration template with basic user detail inputs. -->
+<h1>ToDo Task Management Application</h1>
+<h2>Register</h2>
+
+<input type="text" placeholder="First Name"
+       [(ngModel)]="registerData.firstname">
+
+<input type="text" placeholder="Last Name"
+       [(ngModel)]="registerData.lastname">
+
+<input type="text" placeholder="Username"
+       [(ngModel)]="registerData.username">
+
+<input type="password" placeholder="Password"
+       [(ngModel)]="registerData.password">
+
+<button (click)="onRegister()">Register</button>

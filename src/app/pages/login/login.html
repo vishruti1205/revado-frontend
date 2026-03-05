@@ -1,0 +1,22 @@
+<!-- Login template with username/password inputs and register navigation. -->
+<h1>ToDo Task Management Application</h1>
+<h2>Login</h2>
+
+<input type="text"
+       placeholder="Username"
+       [(ngModel)]="loginData.username">
+
+<input type="password"
+       placeholder="Password"
+       [(ngModel)]="loginData.password">
+
+<button (click)="onLogin()">Login</button>
+
+<p *ngIf="loginError" style="color: red; margin-top: 8px;">
+  {{ loginError }}
+</p>
+
+<p>
+  No account?
+  <button type="button" (click)="goToRegister()">Register</button>
+</p>
