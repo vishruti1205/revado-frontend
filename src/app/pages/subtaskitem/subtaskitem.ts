@@ -16,6 +16,8 @@ export class SubtaskitemComponent implements OnInit {
   todoId = '';
   subtasks: any[] = [];
   newSubtask = { title: '' };
+  editingSubtaskId: any = null;
+  editingSubtaskTitle = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -82,6 +84,49 @@ export class SubtaskitemComponent implements OnInit {
         setTimeout(() => this.loadSubtasks(), 100);
       },
       error: (err) => console.error('Delete subtask error:', err)
+    });
+  }
+
+  startEditSubtask(subtask: any): void {
+    const id = subtask?.id;
+    if (!id) return;
+
+    this.editingSubtaskId = id;
+    this.editingSubtaskTitle = String(subtask?.title ?? '');
+  }
+
+  cancelEditSubtask(): void {
+    this.editingSubtaskId = null;
+    this.editingSubtaskTitle = '';
+  }
+
+  saveEditSubtask(subtask: any): void {
+    const id = subtask?.id;
+    if (!id || this.editingSubtaskId !== id) return;
+
+    const currentTitle = String(subtask?.title ?? '');
+    const trimmed = this.editingSubtaskTitle.trim();
+    if (!trimmed) return;
+    if (trimmed === currentTitle) {
+      this.cancelEditSubtask();
+      return;
+    }
+
+    const previous = currentTitle;
+    subtask.title = trimmed;
+    this.cdr.detectChanges();
+
+    this.subtaskService.updateTitle(id, trimmed).subscribe({
+      next: () => {
+        this.cancelEditSubtask();
+        setTimeout(() => this.loadSubtasks(), 100);
+      },
+      error: (err) => {
+        subtask.title = previous;
+        this.cdr.detectChanges();
+        console.error('Edit subtask error:', err);
+        window.alert('Unable to update subtask title on server.');
+      }
     });
   }
 

@@ -15,7 +15,8 @@ import { HttpInterceptorFn } from '@angular/common/http';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   // Read token from browser localStorage
-  const token = localStorage.getItem('token');
+  const rawToken = localStorage.getItem('token');
+  const token = normalizeToken(rawToken);
 
   // If token exists, attach it
   if (token) {
@@ -34,3 +35,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // If no token exists, send original request unchanged
   return next(req);
 };
+
+function normalizeToken(rawToken: string | null): string {
+  if (!rawToken) return '';
+
+  let token = rawToken.trim();
+
+  // Handle accidentally stored quoted token values.
+  if (token.startsWith('"') && token.endsWith('"') && token.length >= 2) {
+    token = token.slice(1, -1);
+  }
+
+  // Handle accidentally stored "Bearer <token>" values.
+  if (token.toLowerCase().startsWith('bearer ')) {
+    token = token.slice(7).trim();
+  }
+
+  return token;
+}

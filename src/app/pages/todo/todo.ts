@@ -20,6 +20,8 @@ export class TodoComponent implements OnInit {
   // This object is bound to input field using ngModel
   newTodo = { title: '' };
   todoStatusNote = '';
+  editingTodoId: any = null;
+  editingTodoTitle = '';
 
   // Injecting TodoService to call backend APIs
   constructor(
@@ -98,6 +100,54 @@ export class TodoComponent implements OnInit {
         setTimeout(() => this.loadTodos(), 100);
       },
       error: (err) => console.error(err)
+    });
+  }
+
+  startEditTodo(todo: any): void {
+    const id = todo?.id;
+    if (!id) return;
+
+    this.todoStatusNote = '';
+    this.editingTodoId = id;
+    this.editingTodoTitle = String(todo?.title ?? '');
+  }
+
+  cancelEditTodo(): void {
+    this.editingTodoId = null;
+    this.editingTodoTitle = '';
+  }
+
+  saveEditTodo(todo: any): void {
+    const id = todo?.id;
+    if (!id || this.editingTodoId !== id) return;
+
+    const currentTitle = String(todo?.title ?? '');
+    const trimmed = this.editingTodoTitle.trim();
+    if (!trimmed) {
+      this.todoStatusNote = 'Title cannot be empty.';
+      this.cdr.detectChanges();
+      return;
+    }
+    if (trimmed === currentTitle) {
+      this.cancelEditTodo();
+      return;
+    }
+
+    const previous = currentTitle;
+    todo.title = trimmed;
+    this.cdr.detectChanges();
+
+    this.todoService.updateTitle(id, trimmed).subscribe({
+      next: () => {
+        this.cancelEditTodo();
+        setTimeout(() => this.loadTodos(), 100);
+      },
+      error: (err) => {
+        todo.title = previous;
+        this.cdr.detectChanges();
+        console.error('Edit todo error:', err);
+        this.todoStatusNote = 'Unable to update todo title on server.';
+      }
     });
   }
 

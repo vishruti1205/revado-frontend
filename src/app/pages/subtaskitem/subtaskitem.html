@@ -32,9 +32,25 @@
         />
       </td>
       <td [style.textDecoration]="subtask.completed ? 'line-through' : 'none'">
-        {{ subtask.title }}
+        <ng-container *ngIf="editingSubtaskId !== subtask.id; else editSubtaskTitleTpl">
+          {{ subtask.title }}
+        </ng-container>
+        <ng-template #editSubtaskTitleTpl>
+          <input
+            type="text"
+            [(ngModel)]="editingSubtaskTitle"
+            placeholder="Update subtask title"
+          />
+        </ng-template>
       </td>
       <td>
+        <ng-container *ngIf="editingSubtaskId !== subtask.id; else editSubtaskActionsTpl">
+          <button type="button" (click)="startEditSubtask(subtask)" style="margin-right: 8px;">Edit</button>
+        </ng-container>
+        <ng-template #editSubtaskActionsTpl>
+          <button type="button" (click)="saveEditSubtask(subtask)" style="margin-right: 8px;">Save</button>
+          <button type="button" (click)="cancelEditSubtask()" style="margin-right: 8px;">Cancel</button>
+        </ng-template>
         <button type="button" (click)="deleteSubtask(subtask)">Delete</button>
       </td>
     </tr>

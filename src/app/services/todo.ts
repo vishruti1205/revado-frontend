@@ -1,6 +1,7 @@
 // Service for todo CRUD operations and completion updates.
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 /*
   TODO SERVICE- This service handles all HTTP calls related to Todos.
@@ -64,10 +65,10 @@ export class TodoService {
     UPDATE TITLE
     PUT /api/todos/{id}
   */
-  updateTitle(id: string, title: string) {
-    return this.http.put(
-      `${this.baseUrl}/${id}`,
-      { title }
-    );
+  updateTitle(id: string, title: string): Observable<any> {
+    // Exact API contract from backend:
+    // PUT /api/todos/{id}
+    // Body: { "title": "..." }
+    return this.http.put(`${this.baseUrl}/${id}`, { title });
   }
 }

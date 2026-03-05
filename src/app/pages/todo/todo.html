@@ -61,7 +61,16 @@
       <td
         [style.textDecoration]="todo.completed ? 'line-through' : 'none'"
       >
-        {{ todo.title }}
+        <ng-container *ngIf="editingTodoId !== todo.id; else editTodoTitleTpl">
+          {{ todo.title }}
+        </ng-container>
+        <ng-template #editTodoTitleTpl>
+          <input
+            type="text"
+            [(ngModel)]="editingTodoTitle"
+            placeholder="Update todo title"
+          />
+        </ng-template>
       </td>
 
       <!-- DELETE BUTTON -->
@@ -73,6 +82,32 @@
         >
           Subtasks
         </button>
+
+        <ng-container *ngIf="editingTodoId !== todo.id; else editTodoActionsTpl">
+          <button
+            type="button"
+            (click)="startEditTodo(todo)"
+            style="margin-right: 8px;"
+          >
+            Edit
+          </button>
+        </ng-container>
+        <ng-template #editTodoActionsTpl>
+          <button
+            type="button"
+            (click)="saveEditTodo(todo)"
+            style="margin-right: 8px;"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="cancelEditTodo()"
+            style="margin-right: 8px;"
+          >
+            Cancel
+          </button>
+        </ng-template>
 
         <button
           type="button"

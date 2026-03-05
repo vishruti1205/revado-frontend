@@ -1,10 +1,15 @@
 /* Global theme used across login/register/todo/subtask pages. */
 :root {
+  /* Page background gradient colors. */
   --bg-top: #f5f7ff;
   --bg-bottom: #eef6ff;
+
+  /* Surface and typography colors. */
   --card: #ffffff;
   --text: #1f2937;
   --muted: #6b7280;
+
+  /* Shared borders and primary action colors. */
   --border: #dbe4f0;
   --accent: #1d4ed8;
   --accent-hover: #1e40af;

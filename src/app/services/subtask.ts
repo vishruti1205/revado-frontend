@@ -53,4 +53,11 @@ export class SubtaskService {
       ))
     );
   }
+
+  updateTitle(subtaskId: string, title: string): Observable<any> {
+    // Exact API contract from backend:
+    // PUT /api/subtasks/{id}
+    // Body: { "title": "..." }
+    return this.http.put(`${this.subtasksBaseUrl}/${subtaskId}`, { title });
+  }
 }
